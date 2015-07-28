@@ -15,10 +15,10 @@ class ClusterStatisticExporter(client: Client, indexName: String) {
 
   def print(): Unit = {
     // Print "Noise"points
-    printNoiseCluster
+    println(s"Noise: $printNoiseCluster")
 
     Range(1, getMaxClusterId, 10000)
-      .foreach ( id => printClusterInfo(id) )
+      .foreach ( id => println(s"$id: ${printClusterInfo(id)}") )
   }
 
   private def printNoiseCluster: ClusterInfo = {
@@ -70,7 +70,7 @@ class ClusterStatisticExporter(client: Client, indexName: String) {
 
     val totalHits = response.getHits.getTotalHits
     val topUsersAggregation = response.getAggregations.get[Terms]("top_users")
-    val avgAggregation = response.getAggregations.get[Avg]("sum_ratings")
+    val avgAggregation = response.getAggregations.get[Avg]("avg_ratings")
 
     ClusterInfo(
       clusterId,
